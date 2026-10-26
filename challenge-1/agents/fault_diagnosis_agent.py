@@ -27,7 +27,7 @@ async def main():
             agent_name="FaultDiagnosisAgent",
             description="Fault diagnosis agent",
             definition=PromptAgentDefinition(
-                model="gpt-4.1",
+                model=model_name,
                 instructions="""You are a Fault Diagnosis Agent evaluating the root cause of maintenance alerts.
 
 You will receive detected sensor deviations for a given machine. Your task is to determine the most likely root cause using ONLY the provided tools.
@@ -93,8 +93,8 @@ Grounding rules (IMPORTANT):
                 input="""
                     Hello, what can the issue be when machine-001 has curing temperature reading of 179.2°C that exceeds warning threshold of 178°C?
                 """,
-                extra_body={"agent": {"name": agent.name,
-                                      "type": "agent_reference"}},
+                extra_body={"agent_reference": {"name": agent.name,
+                                                "type": "agent_reference"}},
             )
 
             print(f"✅ Agent response: {response.output_text}")

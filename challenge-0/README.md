@@ -32,7 +32,7 @@ The following image illustrates the setup:
 
 All resources reside in a single resource group.
 
-- A **Foundry Account** with a **Foundry Project** with model deployments for **gpt-4.1**, **gpt-4o-mini** and **text-embedding-ada-002**
+- A **Foundry Account** with a **Foundry Project** with model deployments for **gpt-5.4**, **gpt-5.4-mini** and **text-embedding-3-large**
 - **API Management** with two API proxies that read data from **Cosmos DB**
 - **Cosmos DB** with a database including data for machines, technicians, work orders, and more
 - **Storage Account** with knowledge base wiki articles in Markdown
@@ -278,7 +278,7 @@ As mentioned in [Context and Background](#-context-and-background), there are se
 To perform certain tasks in the hackathon, you need the following permissions:
 
 - `Azure AI Developer` on the **Foundry project** resource (agent/project operations)
-- `Azure AI User` on the **AI Services** resource (agent create/run operations)
+ag- `Foundry User` on the **AI Services** resource (agent create/run operations)
 - `Cognitive Services OpenAI Contributor` on the **Azure OpenAI** resource (calling chat completions)
 
 > [!IMPORTANT]
@@ -299,7 +299,7 @@ az role assignment create \
   --role "Azure AI Developer" \
   --scope "$AZURE_AI_PROJECT_RESOURCE_ID"
 
-# Assign "Azure AI User" at the AI Services resource scope
+# Assign "Foundry User" at the AI Services resource scope
 # This is required for agent operations (create/run agents)
 # Derive the AI Services ID from the project resource ID
 AI_SERVICES_ID="${AZURE_AI_PROJECT_RESOURCE_ID%/projects/*}"
@@ -307,7 +307,7 @@ AI_SERVICES_ID="${AZURE_AI_PROJECT_RESOURCE_ID%/projects/*}"
 az role assignment create \
   --assignee-object-id "$ME_OBJECT_ID" \
   --assignee-principal-type User \
-  --role "Azure AI User" \
+  --role "Foundry User" \
   --scope "$AI_SERVICES_ID"
 
 # Assign "Cognitive Services OpenAI Contributor" at the Azure OpenAI resource scope

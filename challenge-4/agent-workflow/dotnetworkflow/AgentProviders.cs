@@ -24,12 +24,20 @@ public static class AgentServiceProvider
         var agents = new List<AIAgent>();
 
         // AnomalyClassificationAgent - classifies severity of telemetry anomalies
-        var anomalyAgent = projectClient.GetAIAgent("AnomalyClassificationAgent");
+        var anomalyAgent = projectClient
+            .AsAIAgent("AnomalyClassificationAgent")
+            .AsBuilder()
+            .UseOpenTelemetry(sourceName: "AnomalyClassificationAgent")
+            .Build();
         agents.Add(anomalyAgent);
         logger.LogInformation("Retrieved Agent Service agent: {AgentName}", anomalyAgent.Name);
 
         // FaultDiagnosisAgent - diagnoses root causes using knowledge base
-        var faultAgent = projectClient.GetAIAgent("FaultDiagnosisAgent");
+        var faultAgent = projectClient
+            .AsAIAgent("FaultDiagnosisAgent")
+            .AsBuilder()
+            .UseOpenTelemetry(sourceName: "FaultDiagnosisAgent")
+            .Build();
         agents.Add(faultAgent);
         logger.LogInformation("Retrieved Agent Service agent: {AgentName}", faultAgent.Name);
 
@@ -56,7 +64,7 @@ public static class LocalAgentProvider
         ILogger logger)
     {
         var aoaiEndpoint = config["AZURE_OPENAI_ENDPOINT"];
-        var aoaiDeployment = config["AZURE_OPENAI_DEPLOYMENT_NAME"] ?? "gpt-4o";
+        var aoaiDeployment = config["AZURE_OPENAI_DEPLOYMENT_NAME"] ?? "gpt-5.4";
         var cosmosEndpoint = config["COSMOS_ENDPOINT"];
         var cosmosKey = config["COSMOS_KEY"];
         var cosmosDatabase = config["COSMOS_DATABASE"] ?? "FactoryOpsDB";
